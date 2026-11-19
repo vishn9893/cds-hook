@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "setup": "bash tools/download-compiler.sh",
-    "compile": "node -e \"require('fs').mkdirSync('elm',{recursive:true})\" && java -cp \"tools/lib/*\" org.cqframework.cql.cql2elm.cli.Main -i cql/screening.cql -o elm --format JSON",
+    "compile": "node -e \"require('fs').mkdirSync('elm',{recursive:true})\" && java -cp \"tools/lib/*\" org.cqframework.cql.cql2elm.cli.Main -i cql/screening.cql -o elm --format JSON && java -cp \"tools/lib/*\" org.cqframework.cql.cql2elm.cli.Main -i cql/liver-screening.cql -o elm --format JSON",
     "start": "node index.js",
-    "test:engine": "node test/engine.test.js"
+    "test:engine": "node test/engine.test.js && node test/liver.test.js"
   },
   "dependencies": {
     "axios": "^1.6.8",

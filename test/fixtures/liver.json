@@ -1,0 +1,44 @@
+[
+  {
+    "name": "adult with no ALT result -> alert",
+    "patient": { "resourceType": "Patient", "id": "adult-no-alt", "birthDate": "1970-05-01" },
+    "observations": [],
+    "expectAlert": true
+  },
+  {
+    "name": "adult with final ALT in 2026 -> no alert",
+    "patient": { "resourceType": "Patient", "id": "adult-alt-2026", "birthDate": "1970-05-01" },
+    "observations": [
+      {
+        "resourceType": "Observation",
+        "id": "alt-2026",
+        "status": "final",
+        "code": { "coding": [{ "system": "http://loinc.org", "code": "1742-6" }] },
+        "subject": { "reference": "Patient/adult-alt-2026" },
+        "effectiveDateTime": "2026-02-15T08:00:00Z"
+      }
+    ],
+    "expectAlert": false
+  },
+  {
+    "name": "adult with ALT only in 2025 -> alert",
+    "patient": { "resourceType": "Patient", "id": "adult-alt-2025", "birthDate": "1970-05-01" },
+    "observations": [
+      {
+        "resourceType": "Observation",
+        "id": "alt-2025",
+        "status": "final",
+        "code": { "coding": [{ "system": "http://loinc.org", "code": "1742-6" }] },
+        "subject": { "reference": "Patient/adult-alt-2025" },
+        "effectiveDateTime": "2025-06-01T08:00:00Z"
+      }
+    ],
+    "expectAlert": true
+  },
+  {
+    "name": "child with no ALT result -> no alert",
+    "patient": { "resourceType": "Patient", "id": "child-no-alt", "birthDate": "2015-05-01" },
+    "observations": [],
+    "expectAlert": false
+  }
+]
