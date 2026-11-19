@@ -1,9 +1,10 @@
 [
   {
-    "name": "adult with no ALT result -> alert",
+    "name": "adult with no ALT result -> screening alert",
     "patient": { "resourceType": "Patient", "id": "adult-no-alt", "birthDate": "1970-05-01" },
     "observations": [],
-    "expectAlert": true
+    "expectAlert": true,
+    "expectFollowUp": false
   },
   {
     "name": "adult with final ALT in 2026 -> no alert",
@@ -18,10 +19,11 @@
         "effectiveDateTime": "2026-02-15T08:00:00Z"
       }
     ],
-    "expectAlert": false
+    "expectAlert": false,
+    "expectFollowUp": false
   },
   {
-    "name": "adult with ALT only in 2025 -> alert",
+    "name": "adult with ALT only in 2025 -> screening alert",
     "patient": { "resourceType": "Patient", "id": "adult-alt-2025", "birthDate": "1970-05-01" },
     "observations": [
       {
@@ -33,12 +35,64 @@
         "effectiveDateTime": "2025-06-01T08:00:00Z"
       }
     ],
-    "expectAlert": true
+    "expectAlert": true,
+    "expectFollowUp": false
   },
   {
     "name": "child with no ALT result -> no alert",
     "patient": { "resourceType": "Patient", "id": "child-no-alt", "birthDate": "2015-05-01" },
     "observations": [],
-    "expectAlert": false
+    "expectAlert": false,
+    "expectFollowUp": false
+  },
+  {
+    "name": "adult with steatosis and no ALT in 2026 -> screening and follow-up alerts",
+    "patient": { "resourceType": "Patient", "id": "adult-steatosis-no-alt", "birthDate": "1970-05-01" },
+    "observations": [
+      {
+        "resourceType": "Condition",
+        "id": "steatosis-1",
+        "subject": { "reference": "Patient/adult-steatosis-no-alt" },
+        "code": { "coding": [{ "system": "http://snomed.info/sct", "code": "197321007", "display": "Steatosis of liver" }] }
+      }
+    ],
+    "expectAlert": true,
+    "expectFollowUp": true
+  },
+  {
+    "name": "adult with steatosis and final ALT in 2026 -> no follow-up alert",
+    "patient": { "resourceType": "Patient", "id": "adult-steatosis-alt", "birthDate": "1970-05-01" },
+    "observations": [
+      {
+        "resourceType": "Condition",
+        "id": "steatosis-2",
+        "subject": { "reference": "Patient/adult-steatosis-alt" },
+        "code": { "coding": [{ "system": "http://snomed.info/sct", "code": "197321007", "display": "Steatosis of liver" }] }
+      },
+      {
+        "resourceType": "Observation",
+        "id": "alt-steatosis-2026",
+        "status": "final",
+        "code": { "coding": [{ "system": "http://loinc.org", "code": "1742-6" }] },
+        "subject": { "reference": "Patient/adult-steatosis-alt" },
+        "effectiveDateTime": "2026-04-10T08:00:00Z"
+      }
+    ],
+    "expectAlert": false,
+    "expectFollowUp": false
+  },
+  {
+    "name": "child with steatosis and no ALT -> no follow-up alert (adults only)",
+    "patient": { "resourceType": "Patient", "id": "child-steatosis", "birthDate": "2015-05-01" },
+    "observations": [
+      {
+        "resourceType": "Condition",
+        "id": "steatosis-3",
+        "subject": { "reference": "Patient/child-steatosis" },
+        "code": { "coding": [{ "system": "http://snomed.info/sct", "code": "197321007", "display": "Steatosis of liver" }] }
+      }
+    ],
+    "expectAlert": false,
+    "expectFollowUp": false
   }
 ]

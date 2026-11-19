@@ -24,14 +24,17 @@ for (const fx of fixtures) {
   source.loadBundles([{ resourceType: 'Bundle', type: 'collection', entry: entries }]);
 
   const results = executor.exec(source);
-  const actual = results.patientResults[fx.patient.id]['Needs Liver Screening Alert'];
+  const patientResult = results.patientResults[fx.patient.id];
+  const actualAlert = patientResult['Needs Liver Screening Alert'];
+  const actualFollowUp = patientResult['Needs Fatty Liver Follow-up Alert'];
 
   try {
-    assert.strictEqual(actual, fx.expectAlert);
+    assert.strictEqual(actualAlert, fx.expectAlert, 'Needs Liver Screening Alert');
+    assert.strictEqual(actualFollowUp, fx.expectFollowUp, 'Needs Fatty Liver Follow-up Alert');
     console.log(`PASS  ${fx.name}`);
   } catch (err) {
     failures++;
-    console.error(`FAIL  ${fx.name}: expected ${fx.expectAlert}, got ${actual}`);
+    console.error(`FAIL  ${fx.name}: ${err.message} (screening=${actualAlert}, follow-up=${actualFollowUp})`);
   }
 }
 
