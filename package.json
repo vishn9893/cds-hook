@@ -1,0 +1,26 @@
+{
+  "name": "cql-cds-pipeline",
+  "version": "1.0.0",
+  "description": "Automated CQL to ELM compilation workflow with Express CDS Service",
+  "main": "index.js",
+  "scripts": {
+    "setup": "bash tools/download-compiler.sh",
+    "compile": "node -e \"require('fs').mkdirSync('elm',{recursive:true})\" && java -cp \"tools/lib/*\" org.cqframework.cql.cql2elm.cli.Main -i cql/screening.cql -o elm --format JSON",
+    "start": "node index.js",
+    "test:engine": "node test/engine.test.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.8",
+    "cql-exec-fhir": "^2.2.0",
+    "cql-execution": "^2.4.6",
+    "express": "^4.19.2"
+  },
+  "keywords": [
+    "cql",
+    "fhir",
+    "elm",
+    "cds-hooks"
+  ],
+  "author": "",
+  "license": "MIT"
+}

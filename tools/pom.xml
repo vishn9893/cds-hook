@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Resolves the HL7 CQL-to-ELM CLI and its runtime dependencies into tools/lib.
+     Maven Central publishes the CLI without a bundled "jar-with-dependencies", so
+     `npm run setup` uses this POM to fetch the full classpath. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.example.cds</groupId>
+  <artifactId>cql-to-elm-toolchain</artifactId>
+  <version>1.0.0</version>
+  <packaging>pom</packaging>
+
+  <dependencies>
+    <dependency>
+      <groupId>info.cqframework</groupId>
+      <artifactId>cql-to-elm-cli</artifactId>
+      <version>3.11.0</version>
+    </dependency>
+  </dependencies>
+</project>

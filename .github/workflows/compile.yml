@@ -1,0 +1,56 @@
+name: Compile and Distribute CQL to ELM
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - name: Checkout main repository branch
+      uses: actions/checkout@v4
+
+    - name: Set up Java Environment
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Set up Node.js Environment
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Download Compiler CLI & Mappings
+      run: npm run setup
+
+    - name: Execute CQL to ELM Translation
+      run: npm run compile
+
+    - name: Verify ELM Output Generation
+      run: |
+        if [ ! -f elm/screening.json ]; then
+          echo "Error: Compilation failed, output JSON missing."
+          exit 1
+        fi
+        echo "Success: Compiled logic artifact found."
+
+    - name: Install Node Dependencies
+      run: npm ci
+
+    - name: Run CQL Engine Fixture Tests
+      run: npm run test:engine
+
+    - name: Deploy Compiled Artifacts to Release Branch
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        branch: release/elm
+        folder: elm
+        target-folder: .

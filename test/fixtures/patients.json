@@ -1,0 +1,59 @@
+[
+  {
+    "name": "adult with no BP reading -> alert",
+    "patient": { "resourceType": "Patient", "id": "adult-no-bp", "birthDate": "1970-05-01" },
+    "observations": [],
+    "expectAlert": true
+  },
+  {
+    "name": "adult with final BP in 2026 -> no alert",
+    "patient": { "resourceType": "Patient", "id": "adult-bp-2026", "birthDate": "1970-05-01" },
+    "observations": [
+      {
+        "resourceType": "Observation",
+        "id": "bp-2026",
+        "status": "final",
+        "code": { "coding": [{ "system": "http://loinc.org", "code": "8480-6" }] },
+        "subject": { "reference": "Patient/adult-bp-2026" },
+        "effectiveDateTime": "2026-03-01T09:00:00Z"
+      }
+    ],
+    "expectAlert": false
+  },
+  {
+    "name": "adult with BP only in 2025 -> alert",
+    "patient": { "resourceType": "Patient", "id": "adult-bp-2025", "birthDate": "1970-05-01" },
+    "observations": [
+      {
+        "resourceType": "Observation",
+        "id": "bp-2025",
+        "status": "final",
+        "code": { "coding": [{ "system": "http://loinc.org", "code": "8480-6" }] },
+        "subject": { "reference": "Patient/adult-bp-2025" },
+        "effectiveDateTime": "2025-11-01T09:00:00Z"
+      }
+    ],
+    "expectAlert": true
+  },
+  {
+    "name": "adult with preliminary BP in 2026 -> alert (status must be final)",
+    "patient": { "resourceType": "Patient", "id": "adult-prelim", "birthDate": "1970-05-01" },
+    "observations": [
+      {
+        "resourceType": "Observation",
+        "id": "bp-prelim",
+        "status": "preliminary",
+        "code": { "coding": [{ "system": "http://loinc.org", "code": "8480-6" }] },
+        "subject": { "reference": "Patient/adult-prelim" },
+        "effectiveDateTime": "2026-03-01T09:00:00Z"
+      }
+    ],
+    "expectAlert": true
+  },
+  {
+    "name": "child with no BP reading -> no alert",
+    "patient": { "resourceType": "Patient", "id": "child-no-bp", "birthDate": "2015-05-01" },
+    "observations": [],
+    "expectAlert": false
+  }
+]
